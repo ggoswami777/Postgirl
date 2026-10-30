@@ -6,6 +6,7 @@ import UserButton from "@/modules/authentication/components/user-button";
 import { UserProps } from "../types";
 import SearchBar from "./search-bar";
 import InviteMember from "./invite-member";
+import Workspace from "./workspace";
 
 interface Props {
   user: UserProps;
@@ -32,7 +33,7 @@ const Header = ({ user }: Props) => {
       {/* Right: User */}
       <div className="flex items-center justify-end space-x-2">
         <InviteMember/>
-        {/* Workspace */}
+        <Workspace/>
         <UserButton user={user} size="sm" />
       </div>
     </header>
