@@ -1,8 +1,8 @@
 "use client";
 
 import { Hint } from "@/components/ui/hint";
-import { Loader,Plus } from "lucide-react";
-import { useEffect,useState } from "react";
+import { Loader, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import {
   Select,
@@ -15,6 +15,7 @@ import { useWorkspaces } from "@/modules/workspaces/hooks/workspace";
 import { useWorkspaceStore } from "../store";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import CreateWorkspace from "./create-workspace";
 
 const Workspace = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,50 +36,58 @@ const Workspace = () => {
   }
 
   if (!workspaces || workspaces.length === 0) {
-    return <div className="font-semibold text-indigo-400">No Workspace Found</div>
+    return (
+      <div className="font-semibold text-indigo-400">No Workspace Found</div>
+    );
   }
 
   return (
-    <Hint label="Change Workspace">
-      <Select
-        value={activeWorkspace?.id ?? ""}
-        onValueChange={(id: string) => {
-          const workspace = workspaces.find((item) => item.id === id);
-          if (workspace) {
-            setSelectedWorkspace(workspace);
-          }
-        }}
-      >
-        <SelectTrigger className="border border-indigo-400 bg-indigo-400/10 hover:bg-indigo-400 text-indigo-400 hover:text-indigo-300 flex flex-row items-center space-x-1">
-          <span className="text-sm text-indigo-400 font-semibold">
-            <SelectValue placeholder="Select Workspace" />
-          </span>
-        </SelectTrigger>
-        <SelectContent>
-          {workspaces.map((workspace) => (
-            <SelectItem
-              key={workspace.id}
-              value={workspace.id}
-              label={workspace.name}
-            >
-              {workspace.name}
-            </SelectItem>
-          ))}
-          <Separator className="my-1"/>
-          <div className="p-2 flex flex-row justify-between items-center">
-            <span className="text-sm font-semibold text-zinc-600">
-              My Workspaces
-              <Button size={"icon"} variant={"outline"}
-              onClick={() => {
-                setIsModalOpen(true);
-              }}>
-                <Plus size={16} className="text-indigo-400"/>
-              </Button>
+    <>
+      <Hint label="Change Workspace">
+        <Select
+          value={activeWorkspace?.id ?? ""}
+          onValueChange={(id: string) => {
+            const workspace = workspaces.find((item) => item.id === id);
+            if (workspace) {
+              setSelectedWorkspace(workspace);
+            }
+          }}
+        >
+          <SelectTrigger className="border border-indigo-400 bg-indigo-400/10 hover:bg-indigo-400 text-indigo-400 hover:text-indigo-300 flex flex-row items-center space-x-1">
+            <span className="text-sm text-indigo-400 font-semibold">
+              <SelectValue placeholder="Select Workspace" />
             </span>
-          </div>
-        </SelectContent>
-      </Select>
-    </Hint>
+          </SelectTrigger>
+          <SelectContent>
+            {workspaces.map((workspace) => (
+              <SelectItem
+                key={workspace.id}
+                value={workspace.id}
+                label={workspace.name}
+              >
+                {workspace.name}
+              </SelectItem>
+            ))}
+            <Separator className="my-1" />
+            <div className="p-2 flex flex-row justify-between items-center">
+              <span className="text-sm font-semibold text-zinc-600">
+                My Workspaces
+                <Button
+                  size={"icon"}
+                  variant={"outline"}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                  }}
+                >
+                  <Plus size={16} className="text-indigo-400" />
+                </Button>
+              </span>
+            </div>
+          </SelectContent>
+        </Select>
+      </Hint>
+      <CreateWorkspace isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+    </>
   );
 };
 
