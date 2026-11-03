@@ -2,7 +2,7 @@
 
 import db from "@/lib/db";
 
-export const createCollection=async (workspaceId:string,name:string,description:string)=>{
+export const createCollection=async (workspaceId:string,name:string)=>{
     
     const collection=await db.collection.create({
         data:{
