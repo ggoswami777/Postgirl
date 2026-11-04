@@ -14,7 +14,7 @@ interface Props {
 
 const Header = ({ user }: Props) => {
   return (
-    <header className="flex items-center justify-between px-4 py-2 border overflow-hidden">
+    <header className="flex shrink-0 items-center justify-between px-4 py-2 border overflow-hidden">
       {/* Left: Logo */}
       <div className="flex items-center hover:cursor-pointer hover:opacity-80">
         <Unplug size={28} className="text-indigo-400" />

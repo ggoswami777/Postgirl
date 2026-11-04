@@ -2,7 +2,7 @@ import {useMutation,useQuery,useQueryClient} from '@tanstack/react-query';
 
 import {createCollection,deleteCollection,editCollection,getCollections} from "../actions";
 
-export function useCollection(workspaceId:string){
+export function useCollections(workspaceId:string){
     return useQuery({
         queryKey:["collections",workspaceId],
         queryFn:()=>getCollections(workspaceId)
