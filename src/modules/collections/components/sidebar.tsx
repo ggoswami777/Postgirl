@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreateCollection from "./create-collection";
+import EmptyCollections from "./empty-collections";
+import CollectionFolder from "./collection-folder";
 
 interface Props {
   currentWorkspace: {
@@ -76,6 +78,15 @@ const TabbedSidebar = ({ currentWorkspace }: Props) => {
 
               </Button>
             </div>
+
+            {
+              collections && collections.length > 0 ?(collections.map((collection)=>(
+                <div className="flex flex-col justify-start items-start p-3 border-b border-zinc-800 w-full" key={collection.id}>
+                  <CollectionFolder collection={collection}/>
+                </div>
+              ))) :(<EmptyCollections />)
+                
+            }
           </div>
         );
       default:
