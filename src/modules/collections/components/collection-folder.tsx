@@ -7,6 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import DeleteCollectionModal from './delete-collection-modal';
+import EditCollectionModal from './edit-collection-modal';
 
 interface Props{
     collection:{
@@ -92,6 +94,18 @@ const CollectionFolder = ({collection}:Props) => {
             </div>
         </div>
     </Collapsible>
+    <EditCollectionModal
+    isModalOpen={isEditOpen}
+    setIsModalOpen={setIsEditOpen}
+    collectionId={collection.id}
+    initialName={collection.name}
+    />
+
+    <DeleteCollectionModal 
+    isModalOpen={isDeleteOpen}
+    setIsModalOpen={setIsDeleteOpen}
+    collectionId={collection.id}
+    />
     </>
   )
 }
