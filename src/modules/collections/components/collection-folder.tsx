@@ -1,54 +1,63 @@
-import { Collapsible,CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ChevronDown, ChevronRight, Edit, EllipsisVertical, FilePlus, Folder, Trash } from 'lucide-react';
-import React, { useState } from 'react'
+import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  ChevronDown,
+  ChevronRight,
+  Edit,
+  EllipsisVertical,
+  FilePlus,
+  Folder,
+  Trash,
+} from "lucide-react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DeleteCollectionModal from './delete-collection-modal';
-import EditCollectionModal from './edit-collection-modal';
+import DeleteCollectionModal from "./delete-collection-modal";
+import EditCollectionModal from "./edit-collection-modal";
 
-interface Props{
-    collection:{
-        id:string;
-        name:string;
-        updatedAt:Date;
-        createdAt:Date;
-    }
+interface Props {
+  collection: {
+    id: string;
+    name: string;
+    updatedAt: Date;
+    createdAt: Date;
+  };
 }
-const CollectionFolder = ({collection}:Props) => {
-    const [isCollapsed,setIsCollapsed] = useState(false)
-    const [isDeleteOpen,setIsDeleteOpen] = useState(false)
-    const[isAddRequestOpen,setIsAddRequestOpen] = useState(false)
-    const [isEditOpen,setIsEditOpen] = useState(false)
+const CollectionFolder = ({ collection }: Props) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isAddRequestOpen, setIsAddRequestOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   return (
     <>
-    <Collapsible open={isCollapsed} onOpenChange={setIsCollapsed} className="w-full">
+      <Collapsible
+        open={isCollapsed}
+        onOpenChange={setIsCollapsed}
+        className="w-full"
+      >
         <div className="flex flex-col w-full">
-            <div className="flex flex-row justify-between items-center p-2 flex-1 w-full hover:bg-zinc-900 rounded-md">
-                <CollapsibleTrigger className="flex flex-row justify-start items-center space-x-2 flex-1">
-                    <div className="flex items-center space-x-1">
-                        {
-                           
-                                isCollapsed?(
-                                    <ChevronDown className="w-4 h-4 text-zinc-400"/>
-                                ):(
-                                    <ChevronRight className="w-4 h-4 text-zinc-400"/>
-                                )
-                          
-                        }
-                        <Folder className="w-5 h-5 text-zinc-400"/>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <span className="text-sm font-medium text-zinc-200 capitalize">{collection.name}</span>
-                       
-                    </div>
-                </CollapsibleTrigger>
-                <div className="flex flex-row justify-center items-center space-x-2">
-                    <FilePlus className="h-4 w-4 text-zinc-400 hover:text-indigo-400"/>
-                     <DropdownMenu>
+          <div className="flex flex-row justify-between items-center p-2 flex-1 w-full hover:bg-zinc-900 rounded-md">
+            <CollapsibleTrigger className="flex flex-row justify-start items-center space-x-2 flex-1">
+              <div className="flex items-center space-x-1">
+                {isCollapsed ? (
+                  <ChevronDown className="w-4 h-4 text-zinc-400" />
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-zinc-400" />
+                )}
+                <Folder className="w-5 h-5 text-zinc-400" />
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-zinc-200 capitalize">
+                  {collection.name}
+                </span>
+              </div>
+            </CollapsibleTrigger>
+            <div className="flex flex-row justify-center items-center space-x-2">
+              <FilePlus className="h-4 w-4 text-zinc-400 hover:text-indigo-400" />
+              <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="p-1 hover:bg-zinc-800 rounded">
                     <EllipsisVertical className="w-4 h-4 text-zinc-400 hover:text-indigo-400" />
@@ -90,24 +99,24 @@ const CollectionFolder = ({collection}:Props) => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-                </div>
             </div>
+          </div>
         </div>
-    </Collapsible>
-    <EditCollectionModal
-    isModalOpen={isEditOpen}
-    setIsModalOpen={setIsEditOpen}
-    collectionId={collection.id}
-    initialName={collection.name}
-    />
+      </Collapsible>
+      <EditCollectionModal
+        isModalOpen={isEditOpen}
+        setIsModalOpen={setIsEditOpen}
+        collectionId={collection.id}
+        initialName={collection.name}
+      />
 
-    <DeleteCollectionModal 
-    isModalOpen={isDeleteOpen}
-    setIsModalOpen={setIsDeleteOpen}
-    collectionId={collection.id}
-    />
+      <DeleteCollectionModal
+        isModalOpen={isDeleteOpen}
+        setIsModalOpen={setIsDeleteOpen}
+        collectionId={collection.id}
+      />
     </>
-  )
-}
+  );
+};
 
-export default CollectionFolder
+export default CollectionFolder;
