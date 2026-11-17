@@ -6,6 +6,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import TabbedSidebar from "@/modules/collections/components/sidebar";
+import RequestPlayground from "@/modules/request/components/request-playground"
 import { useWorkspaceStore } from "@/modules/layout/store";
 import { useGetWorkspace } from "@/modules/workspaces/hooks/workspace";
 
@@ -42,7 +43,7 @@ export default function WorkspacePage() {
   return (
     <ResizablePanelGroup className="min-h-0">
       <ResizablePanel defaultSize="66%" minSize="35%" maxSize="75%">
-        <div className="h-full min-w-0 bg-zinc-900" />
+        <RequestPlayground/>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel
