@@ -12,6 +12,7 @@
     "@base-ui/react": "^1.9.0",
     "@better-auth/infra": "^0.4.25",
     "@hookform/resolvers": "^7.0.7",
+    "@monaco-editor/react": "^4.7.0",
     "@next/swc-win32-x64-msvc": "^16.4.3",
     "@prisma/adapter-pg": "^7.10.1",
     "@radix-ui/react-label": "^2.1.17",
