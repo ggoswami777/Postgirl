@@ -83,6 +83,53 @@ const KeyValueFormEditor:React.FC<KeyValueFormEditorProps> = ({
     
 
     // auto save
+    const lastSavedRef=useRef<string | null>(null);
+    const getFilteredItemsFormValues=(items:KeyValueItem[])=>items.filter((item)=>item.enabled && (item.key?.trim() || item.value?.trim())).map(({key,value})=>({key,value})) ;
+     
+    const debounce=(fn:(...args:any[])=>void,wait=500)=>{
+        let t:ReturnType<typeof setTimeout> | null=null;
+        return (...args:any[])=>{
+            if(t) clearTimeout(t);
+            t=setTimeout(()=>fn(...args),wait);
+        };
+    };
+
+    const savedIfChanged=useCallback((items:KeyValueItem[])=>{
+        const filtered=getFilteredItemsFormValues(items);
+        const serialized=JSON.stringify(filtered);
+        if(serialized!==lastSavedRef.current){
+            lastSavedRef.current=serialized;
+            onSubmit(filtered);
+        }
+
+    },[onSubmit])
+
+    const debouncedSaveRef=useRef(savedIfChanged)
+    
+    useEffect(()=>{ 
+        debouncedSaveRef.current=savedIfChanged
+    },[savedIfChanged])
+
+
+    const debouncedInvokerRef=useRef<((items:KeyValueItem[])=>void) | null>(
+        null
+    );
+
+    useEffect(()=>{
+        debouncedInvokerRef.current=debounce((items:KeyValueItem[])=>{
+            debouncedSaveRef.current(items);
+        },500)
+    },[]);
+
+    useEffect(()=>{
+        const subscription=form.watch((value)=>{
+            const items=(value as KeyValueFormData)?.items || [];
+            debouncedInvokerRef.current?.(items as KeyValueItem[]);
+        });
+
+        return()=>subscription.unsubscribe();
+    },[form])
+
 
   return (
     <div className={cn("w-full",className)}>
@@ -201,6 +248,11 @@ const KeyValueFormEditor:React.FC<KeyValueFormEditorProps> = ({
                     
                         ))
                     }
+                </div>
+                <div className='flex justify-end pt-4'>
+                    <span className='text-xs text-zinc-500'>
+                        Changes saved automatically
+                    </span>
                 </div>
             </div>
         </Form>
