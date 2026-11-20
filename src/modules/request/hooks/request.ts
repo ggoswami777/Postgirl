@@ -4,6 +4,7 @@ import {
   type Request,
   getAllRequestFromCollection,
   saveRequest,
+  run,
 } from "../actions";
 import { useRequestPlaygroundStore } from "../store/useRequestStore";
 
@@ -41,4 +42,19 @@ export function useSaveRequest(id: string) {
       updateTabFromSavedRequest(activeTabId!, data);
     },
   });
+}
+
+
+export function useRunRequest(requestId:string){
+  const queryClient=useQueryClient();
+  const {setResponseViewerData}=useRequestPlaygroundStore();
+  return useMutation({
+    mutationFn:async()=>await run(requestId),
+    onSuccess:(data)=>{
+      queryClient.invalidateQueries({queryKey:["requests"]});
+      // @ts-ignore
+      setResponseViewerData(data);
+    }
+
+  })
 }

@@ -1,6 +1,31 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
 
+type HeadersMap=Record<string,string>;
+
+interface RequestRun{
+  id:string;
+  requestId?:string;
+  status?:number;
+  statusText?:string;
+  headers?:HeadersMap;
+  body?:string | object | null;
+  durationMs?:number;
+  createdAt?:string;
+
+}
+interface Result{
+  status?:number;
+  statusText?:string;
+  duration?:number;
+  size?:number;
+}
+
+export interface ResponseData{
+  success:boolean;
+  requestRun:RequestRun;
+  result?:Result
+}
 export type RequestTab = {
   id: string;
   title: string;
@@ -27,7 +52,6 @@ interface SavedRequest {
 
 type PlaygroundState = {
   tabs: RequestTab[];
-  activeTab: string | null;
   activeTabId: string | null;
   addTab: () => void;
   closeTab: (id: string) => void;
@@ -39,12 +63,13 @@ type PlaygroundState = {
     tabId: string,
     savedRequest: SavedRequest,
   ) => void;
-  // responseViewerData:ResponseData | null;
-  // setResponseViewerData:(data:ResponseData)=>void
+  responseViewerData:ResponseData | null;
+  setResponseViewerData:(data:ResponseData)=>void
 };
 
-// @ts-ignore
 export const useRequestPlaygroundStore = create<PlaygroundState>((set) => ({
+  responseViewerData: null,
+  setResponseViewerData: (data) => set({ responseViewerData: data }),
   tabs: [],
   activeTabId: null,
 
@@ -62,7 +87,7 @@ export const useRequestPlaygroundStore = create<PlaygroundState>((set) => ({
       };
       return {
         tabs: [...state.tabs, newTab],
-        activeTab: newTab.id,
+        activeTabId: newTab.id,
       };
     }),
 
